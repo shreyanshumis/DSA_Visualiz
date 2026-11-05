@@ -1,0 +1,10 @@
+const assert = require('node:assert/strict');
+const init = require('./sql-asm');
+const {grade,questions}=require('./dbms-core');
+(async()=>{const SQL=await init();const q=title=>questions.find(x=>x.title===title).id;
+assert.equal(grade(SQL,'SELECT d.name,COUNT(e.id) FROM departments d LEFT JOIN employees e ON e.department_id=d.id WHERE e.salary>=80000 GROUP BY d.id,d.name',q('High earners without losing departments')).ok,false);
+assert.equal(grade(SQL,'SELECT SUM(e.salary) FROM employees e JOIN assignments a ON a.employee_id=e.id',q('Avoid double-counting salaries')).ok,false);
+assert.equal(grade(SQL,'SELECT d.name,COUNT(*) FROM departments d LEFT JOIN employees e ON e.department_id=d.id GROUP BY d.id,d.name',q('Include empty departments')).ok,false);
+assert.deepEqual(grade(SQL,questions[q('Project hours including zero')].answer,q('Project hours including zero')).actual.values,[['Portal',55],['Mobile',35],['Analytics',12],['Archive',0]]);
+assert.deepEqual(grade(SQL,questions[q('Colleagues in pairs')].answer,q('Colleagues in pairs')).actual.values,[['Asha','Chen'],['Asha','Gia'],['Ben','Eli'],['Chen','Gia']]);
+console.log('PASS: ON vs WHERE, duplicate salaries, empty department counts, project totals and self-join pairs.');})();

@@ -1,0 +1,31 @@
+<dialog id="bit-cheatsheet" aria-labelledby="bit-cheatsheet-title">
+<div class="heading"><div><h2 id="bit-cheatsheet-title">Bitwise cheatsheet</h2><small>Quick reference for pseudocode · signed 32-bit integers</small></div><button id="bit-cheatsheet-close" autofocus>Close ×</button></div>
+<p><b>^ is XOR, not exponentiation.</b> Work one bit at a time. Bit positions start at <b>0 on the right</b>. Examples below show short positive numbers with leading zeros; negative numbers use 32-bit two’s complement.</p>
+<div class="bit-cheat-grid">
+<section><h3>1 · Read a binary number</h3><pre>Position:  3  2  1  0
+Value:     8  4  2  1
+Bits:      1  1  0  1
+13 = 8 + 4 + 1 = 1101</pre><p>Each place is worth twice the place to its right. Add the place values where the bit is 1.</p></section>
+<section><h3>2 · Truth table: one pair of bits</h3><table><thead><tr><th>A</th><th>B</th><th>A &amp; B</th><th>A | B</th><th>A ^ B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr></tbody></table><p><b>&amp;</b>: both · <b>|</b>: either · <b>^</b>: different</p></section>
+<section><h3>3 · AND, OR and XOR side by side</h3><pre>  5 = 0101     5 = 0101     5 = 0101
+  3 = 0011     3 = 0011     3 = 0011
+  &amp;   ----     |   ----     ^   ----
+      0001         0111         0110
+         1            7            6</pre><p>AND keeps shared 1s. OR combines 1s. XOR removes shared 1s and keeps differences.</p></section>
+<section><h3>4 · Shifts and complement</h3><pre>5 &lt;&lt; 1  = 10   0101 → 1010
+5 &gt;&gt; 1  =  2   0101 → 0010
+~5      = -6   rule: ~n = -n - 1
+-5 &gt;&gt; 1 = -3   signed shift keeps the sign</pre><p>For non-negative numbers, right shift by k is floor(n / 2ᵏ). Left shift acts like multiplication by 2ᵏ only when the signed 32-bit result does not overflow. ~ flips <em>all 32 bits</em>, not just the few bits printed above.</p></section>
+<section><h3>5 · Shortcuts worth remembering</h3><pre>x ^ x = 0       x ^ 0 = x
+x &amp; x = x       x &amp; 0 = 0
+x | x = x       x | 0 = x
+(x ^ y) ^ y = x
+x &amp; ~x = 0      x | ~x = -1</pre><p>XOR can be regrouped and reordered: equal values cancel in pairs. For example, 7 ^ 4 ^ 7 = 4.</p></section>
+<section><h3>6 · Common bit tricks</h3><div class="table-wrap"><table><thead><tr><th>Task</th><th>Expression</th><th>Example</th></tr></thead><tbody><tr><td>Odd?</td><td>(n &amp; 1) == 1</td><td>5 &amp; 1 = 1</td></tr><tr><td>Test bit k</td><td>(n &amp; (1 &lt;&lt; k)) != 0</td><td>5, k=2 → true</td></tr><tr><td>Set bit k</td><td>n | (1 &lt;&lt; k)</td><td>5, k=1 → 7</td></tr><tr><td>Clear bit k</td><td>n &amp; ~(1 &lt;&lt; k)</td><td>7, k=1 → 5</td></tr><tr><td>Toggle bit k</td><td>n ^ (1 &lt;&lt; k)</td><td>5, k=2 → 1</td></tr><tr><td>Remove lowest 1</td><td>n &amp; (n - 1)</td><td>12 → 8</td></tr><tr><td>Power of two?</td><td>n &gt; 0 AND (n &amp; (n - 1)) == 0</td><td>8 → true</td></tr></tbody></table></div><p>Use non-negative n and bit positions 0–30 for these simple signed-integer examples. Bit 31 is the sign bit. Count set bits by repeatedly clearing the lowest 1 until n becomes 0.</p></section>
+<section><h3>7 · A quick dry run</h3><pre>a ← 5        // 0101
+b ← 3        // 0011
+c ← a ^ b    // 0110 = 6
+c ← c &lt;&lt; 1   // 1100 = 12
+PRINT c &amp; 7  // 1100 &amp; 0111 = 0100 = 4</pre><p>Write down each updated value immediately. Later statements use the new value, not the original one.</p></section>
+<section><h3>8 · Common exam traps</h3><ul><li><b>Bitwise vs logical:</b> 2 &amp; 1 = 0, but “2 != 0 AND 1 != 0” is true. AND/OR combine conditions; &amp;/| combine bits.</li><li><b>Parentheses first:</b> (5 + 2) ^ 3 = 4, while 5 + (2 ^ 3) = 6. Precedence rules vary by language; use the question’s rules.</li><li><b>Complement is signed:</b> ~5 is -6, not 10. (~5) &amp; 15 is 10 because the mask keeps only four bits.</li><li><b>Zero is not a power of two:</b> always include n &gt; 0 in the test.</li><li><b>Shifts have limits:</b> overflow can change the sign. In this app, shift counts use their lowest 5 bits; use 0–31 and don’t assume shifting by 32 clears a number.</li><li><b>Loop bounds:</b> these questions use inclusive FOR bounds. Trace every iteration and every PRINT in order.</li></ul></section>
+</div></dialog>

@@ -1,0 +1,15 @@
+/* Fixed section buttons shared by every offline page. */
+body header,body.dashboard header{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px}
+.header-left{display:flex;align-items:center;justify-content:flex-start;min-width:0}
+.header-right{display:flex;align-items:center;justify-content:flex-end;gap:12px;min-width:0}
+header .section-nav{display:flex;align-items:center;gap:8px;flex:none;margin:0;padding:0;max-height:none;overflow:visible;font:14px/1.4 system-ui,sans-serif;background:transparent;border:0}
+header .section-nav a{display:flex;align-items:center;justify-content:center;width:152px;height:38px;box-sizing:border-box;color:#e6edf7;text-decoration:none;white-space:nowrap;background:#222e40;border:1px solid #455570;border-radius:7px;padding:0 10px;font-weight:500;transition:background-color .2s ease,border-color .2s ease,color .2s ease}
+header .section-nav a:hover{background:#30425a;border-color:#73dfbf}
+header .section-nav a[aria-current="page"]{color:#a0f3d7;background:#214d45;border-color:#73dfbf;font-weight:500}
+header .section-nav a:focus-visible{outline:2px solid #73dfbf;outline-offset:3px}
+body.dashboard header .breadcrumb{display:none}
+header .header-right .learning-view{margin:0}
+@media(max-width:1200px){header .section-nav a{width:135px;font-size:13px}header .header-right .learning-view>span{display:none}.header-right{gap:8px}header .header-right>small{display:none}}
+@media(max-width:950px){header .section-nav a{width:120px;font-size:12px}body header,body.dashboard header{gap:8px}.header-right #code-mode{max-width:125px}.header-right #focus-toggle{padding:8px;font-size:11px}}
+@media(max-width:780px){body header,body.dashboard header{grid-template-columns:auto 1fr;height:auto;min-height:60px;flex-wrap:nowrap}header .section-nav{justify-self:end;gap:4px}header .section-nav a{width:106px;font-size:11px;padding:0 5px}.header-right{grid-column:1/-1;padding-bottom:6px}}
+@media(prefers-reduced-motion:reduce){header .section-nav a{transition:none}}
